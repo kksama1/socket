@@ -5,14 +5,17 @@ package Server;
 // (powered by FernFlower decompiler)
 //
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.io.*;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
 public class Client {
     public Client() {
+    }
+
+    private static void n(String msg) {
+        System.out.println( msg + "Васильев");
     }
 
     public static void main(String[] args) throws UnknownHostException, IOException {
@@ -36,5 +39,21 @@ public class Client {
         // закрываем сокет и поток
         so.close();
         out.close();
+
+        //______________________________________________________________________
+
+        ServerSocket s = new ServerSocket(9002);
+
+        // Устанавливаем в слушающий режим (он ждёт кога к нему обратятся)
+        Socket soc = s.accept();
+
+        // Читаем сообщение
+        BufferedReader in = new BufferedReader(new InputStreamReader(soc.getInputStream()));
+        String msg = in.readLine();
+        n(msg);
+
+        soc.close();
+        s.close();
+
     }
 }

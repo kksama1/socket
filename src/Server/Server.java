@@ -44,9 +44,7 @@ package Server;
 // (powered by FernFlower decompiler)
 //
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -62,7 +60,7 @@ public class Server {
                 "Когда в самый разгар веселья падает из рук бокал вина.\n" +
                 "И черный кабинет.\n" +
                 "И ждет в стволе патрон.\n" +
-                "Так тихо, что я слышу, как идет на глубине вагон метро.");
+                "Так тихо, что я слышу, как идет на глубине вагон метро.\n");
     }
 
     public static void main(String[] args) throws IOException {
@@ -93,5 +91,27 @@ public class Server {
 
         // Закрываем сам сокет
         s.close();
+
+        //_____________________________________________________________________________________
+
+        Socket soc = new Socket("127.0.0.1", 9002);
+
+        // сощдаём буфферизированный поток (??) хз как это обозвать
+        BufferedWriter out = new BufferedWriter(new OutputStreamWriter(soc.getOutputStream()));
+
+        // тут я думаю понятно
+        String msg = "Александр ";
+        System.out.println("Server sends:\n" + msg);
+
+        // помещаем данные в поток
+        out.write(msg, 0, msg.length());
+        out.newLine();
+
+        // отправляем
+        out.flush();
+
+        // закрываем сокет и поток
+        soc.close();
+        out.close();
     }
 }
